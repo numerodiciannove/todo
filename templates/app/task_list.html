@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="display-4 mb-4">"ToDo" - list</h1>
+      <a href="{% url 'app:task-create' %}"
+         class="btn btn-primary link-to-page">Add task</a>
+    </div>
+    <h3>
+      <span class="badge badge-warning">
+        Number of uncompleted tasks: {{ uncompleted_tasks_count }}
+      </span>
+    </h3>
+    {% if tasks %}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Task</th>
+            <th>Edit</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for task in tasks %}
+            <tr>
+              <td>
+                <ul>
+                  <li>{{ task.content }} <span
+                      class="status {% if task.is_complete %}text-success{% else %}text-danger{% endif %}">{% if task.is_complete %}
+                    Done{% else %}Pending{% endif %}</span></li>
+                  <li>{{ task.datetime }}</li>
+                  {% if task.deadline %}
+                    <li>Deadline: {{ task.deadline }}</li>
+                  {% endif %}
+                  {% if task.tags.all %}
+                    <li>Tags: {{ task.tags.all|join:", " }}</li>
+                  {% endif %}
+                  <br>
+                  <a href="{% url 'app:task-update' pk=task.id %}"
+                     class="btn btn-secondary link-to-page">Update</a>
+                  <a href="{% url 'app:task-delete' pk=task.id %}"
+                     class="btn btn-danger link-to-page ml-2">Delete</a>
+                </ul>
+              </td>
+              <td>
+                <a href="{% url 'app:task-complete-undo' pk=task.id %}"
+                   class="btn {% if task.is_complete %}btn-secondary{% else %}btn-success{% endif %} link-to-page">
+                  {% if task.is_complete %}Undo{% else %}
+                    Complete{% endif %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="lead">There are no tasks</p>
+    {% endif %}
+  </div>
+{% endblock %}
