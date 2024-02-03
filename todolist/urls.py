@@ -33,4 +33,4 @@ urlpatterns = [
     path("tags/<int:pk>/delete/", TagDeleteView.as_view(), name="tag-delete"),
 ]
 
-app_name = "app"
+app_name = "todolist"

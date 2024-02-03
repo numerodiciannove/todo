@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 
-from app.models import Task, Tag
+from todolist.models import Task, Tag
 
 
 class TaskForm(ModelForm):
