@@ -5,7 +5,6 @@ from .views import (
     TaskCreateView,
     TaskUpdateView,
     TaskDeleteView,
-    complete_undo,
     TagCreateView,
     TagUpdateView,
     TagDeleteView,
@@ -21,11 +20,6 @@ urlpatterns = [
     ),
     path(
         "tasks/<int:pk>/delete/", TaskDeleteView.as_view(), name="task-delete"
-    ),
-    path(
-        "tasks/<int:pk>/complete-undo/",
-        complete_undo,
-        name="task-complete-undo"
     ),
     path("tags/", TagListView.as_view(), name="tag-list"),
     path("tags/create/", TagCreateView.as_view(), name="tag-create"),

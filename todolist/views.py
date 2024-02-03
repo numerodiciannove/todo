@@ -1,22 +1,9 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
 from todolist.forms import TaskForm, TagForm
 from todolist.models import Task, Tag
-
-
-def complete_undo(request, pk):
-    task = get_object_or_404(Task, id=pk)
-
-    if task.is_complete:
-        task.is_complete = False
-    else:
-        task.is_complete = True
-    task.save()
-
-    return HttpResponseRedirect(reverse_lazy("todolist:task-list"))
 
 
 class TaskListView(ListView):
@@ -33,6 +20,14 @@ class TaskListView(ListView):
         context["uncompleted_tasks_count"] = uncompleted_tasks_count
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        task_id = request.POST.get("task_id")
+        if task_id:
+            task = Task.objects.get(pk=task_id)
+            task.is_complete = not task.is_complete
+            task.save()
+        return redirect("todolist:task-list")
 
 
 class TaskCreateView(CreateView):

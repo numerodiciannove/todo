@@ -44,10 +44,19 @@
                 </ul>
               </td>
               <td>
-                <a href="{% url 'todolist:task-complete-undo' pk=task.id %}"
-                   class="btn {% if task.is_complete %}btn-secondary{% else %}btn-success{% endif %} link-to-page">
-                  {% if task.is_complete %}Undo{% else %}
-                    Complete{% endif %}</a>
+                <form method="post" action="{% url 'todolist:task-list' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="task_id" value="{{ task.id }}">
+                  {% if task.is_complete %}
+                    <button class="btn btn-secondary" type="submit"
+                            name="action" value="undo">Undo
+                    </button>
+                  {% else %}
+                    <button class="btn btn-success" type="submit" name="action"
+                            value="complete">Complete!
+                    </button>
+                  {% endif %}
+                </form>
               </td>
             </tr>
           {% endfor %}
