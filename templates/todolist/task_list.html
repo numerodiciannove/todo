@@ -4,7 +4,7 @@
   <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center">
       <h1 class="display-4 mb-4">"ToDo" - list</h1>
-      <a href="{% url 'app:task-create' %}"
+      <a href="{% url 'todolist:task-create' %}"
          class="btn btn-primary link-to-page">Add task</a>
     </div>
     <h3>
@@ -37,14 +37,14 @@
                     <li>Tags: {{ task.tags.all|join:", " }}</li>
                   {% endif %}
                   <br>
-                  <a href="{% url 'app:task-update' pk=task.id %}"
+                  <a href="{% url 'todolist:task-update' pk=task.id %}"
                      class="btn btn-secondary link-to-page">Update</a>
-                  <a href="{% url 'app:task-delete' pk=task.id %}"
+                  <a href="{% url 'todolist:task-delete' pk=task.id %}"
                      class="btn btn-danger link-to-page ml-2">Delete</a>
                 </ul>
               </td>
               <td>
-                <a href="{% url 'app:task-complete-undo' pk=task.id %}"
+                <a href="{% url 'todolist:task-complete-undo' pk=task.id %}"
                    class="btn {% if task.is_complete %}btn-secondary{% else %}btn-success{% endif %} link-to-page">
                   {% if task.is_complete %}Undo{% else %}
                     Complete{% endif %}</a>

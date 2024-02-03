@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 
-from app.forms import TaskForm, TagForm
-from app.models import Task, Tag
+from todolist.forms import TaskForm, TagForm
+from todolist.models import Task, Tag
 
 
 def complete_undo(request, pk):
@@ -16,12 +16,12 @@ def complete_undo(request, pk):
         task.is_complete = True
     task.save()
 
-    return HttpResponseRedirect(reverse_lazy("app:task-list"))
+    return HttpResponseRedirect(reverse_lazy("todolist:task-list"))
 
 
 class TaskListView(ListView):
     model = Task
-    template_name = "app/task_list.html"
+    template_name = "todolist/task_list.html"
     context_object_name = "tasks"
     paginate_by = 10
     queryset = Task.objects.prefetch_related("tags")
@@ -38,23 +38,23 @@ class TaskListView(ListView):
 class TaskCreateView(CreateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("app:task-list")
+    success_url = reverse_lazy("todolist:task-list")
 
 
 class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("app:task-list")
+    success_url = reverse_lazy("todolist:task-list")
 
 
 class TaskDeleteView(DeleteView):
     model = Task
-    success_url = reverse_lazy("app:task-list")
+    success_url = reverse_lazy("todolist:task-list")
 
 
 class TagListView(ListView):
     model = Tag
-    template_name = "app/tag_list.html"
+    template_name = "todolist/tag_list.html"
     context_object_name = "tags"
     paginate_by = 10
 
@@ -62,15 +62,15 @@ class TagListView(ListView):
 class TagCreateView(CreateView):
     model = Tag
     form_class = TagForm
-    success_url = reverse_lazy("app:tag-list")
+    success_url = reverse_lazy("todolist:tag-list")
 
 
 class TagUpdateView(UpdateView):
     model = Tag
     form_class = TagForm
-    success_url = reverse_lazy("app:tag-list")
+    success_url = reverse_lazy("todolist:tag-list")
 
 
 class TagDeleteView(DeleteView):
     model = Tag
-    success_url = reverse_lazy("app:tag-list")
+    success_url = reverse_lazy("todolist:tag-list")
